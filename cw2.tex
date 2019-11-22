@@ -1,0 +1,321 @@
+\documentclass[a4paper]{article}
+
+%  packages
+  \usepackage{a4wide}
+  \usepackage{amsmath, amssymb}
+  \usepackage{tikz}
+  \usetikzlibrary{calc}
+
+% commands
+
+\pagestyle{empty}
+
+\title{Coursework 2 - Perfect Matching}
+\author{Oskar Mampe}
+\date{Tutorial Session: Thursday 1pm}
+
+\begin{document}
+
+\tikzset{ v/.style = { circle
+, draw
+, inner sep    = -1.0pt
+, minimum size =  1.5mm
+}
+, w/.style = { circle
+, inner sep    = -1.0pt
+, minimum size =  1.5mm
+}
+}
+
+\maketitle
+
+\thispagestyle{empty}
+
+\begin{enumerate}
+\item In the first graph, there is no perfect match as only one of $e_1, e_2$ can be chosen meaning either $v_2$ or $v_3$ is M-unsaturated. Similar argument can be made for the edges $e_4, e_5$ and $v_5, v_6$.
+  \begin{center}
+   
+    \begin{tikzpicture}[scale=1]
+      \node[v, label=$v_4$] (uc) at (0,3) {};
+      \node[v, label=$v_1$] (lc) at (0,2) {};
+      \node[w] (dd) at (0,0) {}; % dummy
+      \node[v, label=$v_5$] (ul) at ($(uc)+(150:1)$) {};
+      \node[v, label=$v_6$] (ur) at ($(uc)+( 30:1)$) {};
+      \node[v, label=$v_2$] (ll) at ($(lc)+(210:1)$) {};
+      \node[v, label=$v_3$] (lr) at ($(lc)+(330:1)$) {};
+      \draw[red] (ll)--(lc) node[midway, below, black] {$e_1$} {};
+      \draw (lc)--(lr) node[midway, below] {$e_2$} {};
+      \draw (uc)--(lc) node[midway, right] {$e_3$} {};
+      \draw(uc)--(ur) node[midway, below] {$e_4$} {};
+      \draw[red] (ul)--(uc)  node[midway, below, black] {$e_5$} {};
+    \end{tikzpicture}
+  \end{center}
+    Further, this second graph also does not have a perfect match. According to Hall's Theorem, $|N(S)| \geq  |S|$.
+    However, when checking for this equality, if you count the green vertices as $|S| = 18$ and red nodes as $|N(S)| = 17$, the size of $|S|$ is larger. Therefore, at this point in the algorithm, there will always be one node M-unsaturated, which was $v_n$ in this case. 
+    
+    \hfill
+    \begin{center}
+    \begin{tikzpicture}[scale=0.7]
+      \node[v, fill=green] (1!5) at (0,1) {};
+      \node[v, fill=red] (1!4) at (0,0) {};
+      % \foreach \x/\y/\z in {1/2/3, 3/4/5, 5/6/7, 7/8/9, 9/10/11, 11/12/13, 13/14/15, 15/16/17, 17/18/19, 19/20/21, 21/22/23}
+      % {
+      %   \node[v] (\y!6) at ($(\x!5)+(( 30:1)$) {}; 
+      %   \node[v] (\z!5) at ($(\y!6)+((330:1)$) {}; 
+      %   \node[v] (\y!3) at ($(\x!4)+((330:1)$) {}; 
+      %   \node[v] (\z!4) at ($(\y!3)+(( 30:1)$) {}; 
+      % }
+     %tr, mr, bl, ml
+      \node[v, fill=red] (2!6) at ($(1!5)+(( 30:1)$) {}; 
+      \node[v, fill=green] (3!5) at ($(2!6)+((330:1)$) {}; 
+      \node[v, fill=green] (2!3) at ($(1!4)+((330:1)$) {}; 
+      \node[v, fill=red] (3!4) at ($(2!3)+(( 30:1)$) {}; 
+
+      \node[v, fill=red] (4!6) at ($(3!5)+(( 30:1)$) {}; 
+      \node[v, fill=green] (5!5) at ($(4!6)+((330:1)$) {}; 
+      \node[v, fill=green] (4!3) at ($(3!4)+((330:1)$) {}; 
+      \node[v, fill=red] (5!4) at ($(4!3)+(( 30:1)$) {}; 
+
+      \node[v, fill=red] (6!6) at ($(5!5)+(( 30:1)$) {}; 
+      \node[v, fill=green] (7!5) at ($(6!6)+((330:1)$) {}; 
+      \node[v, fill=green] (6!3) at ($(5!4)+((330:1)$) {}; 
+      \node[v, fill=red] (7!4) at ($(6!3)+(( 30:1)$) {}; 
+
+      \node[v, fill=red] (8!6) at ($(7!5)+(( 30:1)$) {}; 
+      \node[v, fill=green] (9!5) at ($(8!6)+((330:1)$) {}; 
+      \node[v, fill=green] (8!3) at ($(7!4)+((330:1)$) {}; 
+      \node[v, fill=red] (9!4) at ($(8!3)+(( 30:1)$) {}; 
+
+      \node[v, fill=red] (10!6) at ($(9!5)+(( 30:1)$) {}; 
+      \node[v, fill=green, label=right:{$v_n$}] (11!5) at ($(10!6)+((330:1)$) {}; 
+      \node[v, fill=green] (10!3) at ($(9!4)+((330:1)$) {}; 
+      \node[v, fill=red] (11!4) at ($(10!3)+(( 30:1)$) {}; 
+
+
+      \node[v, fill=red] (12!6) at ($(11!5)+(( 30:1)$) {}; 
+      \node[v] (13!5) at ($(12!6)+((330:1)$) {}; 
+      \node[v] (12!3) at ($(11!4)+((330:1)$) {}; 
+      \node[v] (13!4) at ($(12!3)+(( 30:1)$) {}; 
+
+      \node[v] (14!6) at ($(13!5)+(( 30:1)$) {}; 
+      \node[v] (15!5) at ($(14!6)+((330:1)$) {}; 
+      \node[v] (14!3) at ($(13!4)+((330:1)$) {}; 
+      \node[v] (15!4) at ($(14!3)+(( 30:1)$) {}; 
+
+      \node[v] (16!6) at ($(15!5)+(( 30:1)$) {}; 
+      \node[v] (17!5) at ($(16!6)+((330:1)$) {}; 
+      \node[v] (16!3) at ($(15!4)+((330:1)$) {}; 
+      \node[v] (17!4) at ($(16!3)+(( 30:1)$) {}; 
+
+      \node[v] (18!6) at ($(17!5)+(( 30:1)$) {}; 
+      \node[v] (19!5) at ($(18!6)+((330:1)$) {}; 
+      \node[v] (18!3) at ($(17!4)+((330:1)$) {}; 
+      \node[v] (19!4) at ($(18!3)+(( 30:1)$) {}; 
+
+
+      \node[v] (20!6) at ($(19!5)+(( 30:1)$) {}; 
+      \node[v] (21!5) at ($(20!6)+((330:1)$) {}; 
+      \node[v] (20!3) at ($(19!4)+((330:1)$) {}; 
+      \node[v] (21!4) at ($(20!3)+(( 30:1)$) {}; 
+
+
+      \node[v] (22!6) at ($(21!5)+(( 30:1)$) {}; 
+      \node[v] (23!5) at ($(22!6)+((330:1)$) {}; 
+      \node[v] (22!3) at ($(21!4)+((330:1)$) {}; 
+      \node[v] (23!4) at ($(22!3)+(( 30:1)$) {}; 
+
+
+      %UP TOP
+      \node[v, fill=red] (3!8) at ($(3!5)+(0,2)$) {};
+      \node[v, fill=red] (7!8) at ($(7!5)+(0,2)$) {};
+      \node[v, fill=red] (11!8) at ($(11!5)+(0,2)$) {};
+      \node[v] (17!8) at ($(17!5)+(0,2)$) {};
+      
+
+      \node[v, fill=green] (2!7) at ($(2!6)+(0,1)$) {};
+      \node[v, fill=green] (4!7) at ($(4!6)+(0,1)$) {};
+      \node[v, fill=green] (6!7) at ($(6!6)+(0,1)$) {};
+      \node[v, fill=green] (8!7) at ($(8!6)+(0,1)$) {};
+
+      \node[v, fill=green] (10!7) at ($(10!6)+(0,1)$) {};
+      \node[v, fill=green] (12!7) at ($(12!6)+(0,1)$) {};
+      \node[v] (16!7) at ($(16!6)+(0,1)$) {};
+      \node[v] (18!7) at ($(18!6)+(0,1)$) {};
+
+      \node[v, fill=red] (6!2) at ($(6!3)-(0,1)$) {};
+      \node[v, fill=red] (8!2) at ($(8!3)-(0,1)$) {};
+      \node[v] (12!2) at ($(12!3)-(0,1)$) {};
+      \node[v] (14!2) at ($(14!3)-(0,1)$) {};
+
+      \node[v] (16!2) at ($(16!3)-(0,1)$) {};
+      \node[v] (18!2) at ($(18!3)-(0,1)$) {};
+      \node[v] (20!2) at ($(20!3)-(0,1)$) {};
+      \node[v] (22!2) at ($(22!3)-(0,1)$) {};
+
+      \node[v, fill=green] (7!1) at ($(7!4)-(0,2)$) {};
+      \node[v] (13!1) at ($(13!4)-(0,2)$) {};
+      \node[v] (17!1) at ($(17!4)-(0,2)$) {};
+      \node[v] (21!1) at ($(21!4)-(0,2)$) {};
+
+
+       %x!5,y!6 upper left
+       \draw (1!5)--(2!6);
+       \draw (3!5)--(4!6);
+       \draw[red] (5!5)--(6!6);
+       \draw (7!5)--(8!6);
+       \draw[red] (9!5)--(10!6);
+       \draw (11!5)--(12!6);
+       \draw (13!5)--(14!6);
+       \draw (15!5)--(16!6);
+       \draw (17!5)--(18!6);
+       \draw (19!5)--(20!6);
+       \draw (21!5)--(22!6);
+ 
+       %y!6, z!5 upper right
+       \draw[red] (2!6)--(3!5);
+       \draw (4!6)--(5!5);
+       \draw (6!6)--(7!5);
+       \draw (8!6)--(9!5);
+       \draw (10!6)--(11!5);
+       \draw (12!6)--(13!5);
+       \draw (14!6)--(15!5);
+       \draw (16!6)--(17!5);
+       \draw (18!6)--(19!5);
+       \draw (20!6)--(21!5);
+       \draw (22!6)--(23!5);
+       
+ 
+       %x!4, y!3 down left
+       \draw (1!4)--(2!3);
+       \draw (3!4)--(4!3);
+       \draw (5!4)--(6!3);
+       \draw (7!4)--(8!3);
+       \draw (9!4)--(10!3);
+       \draw (11!4)--(12!3);
+       \draw (13!4)--(14!3);
+       \draw (15!4)--(16!3);
+       \draw (17!4)--(18!3);
+       \draw (19!4)--(20!3);
+       \draw (21!4)--(22!3);
+ 
+       %y!3, z!4 down right
+       \draw[red] (2!3)--(3!4);
+       \draw[red] (4!3)--(5!4);
+       \draw (6!3)--(7!4);
+       \draw[red] (8!3)--(9!4);
+       \draw[red] (10!3)--(11!4);
+       \draw (12!3)--(13!4);
+       \draw (14!3)--(15!4);
+       \draw (16!3)--(17!4);
+       \draw (18!3)--(19!4);
+       \draw (20!3)--(21!4);
+       \draw (22!3)--(23!4);
+ 
+       %\foreach \x in {1,3,...,23} \draw (\x!4)--(\x!5);
+ 
+       %mid
+       \draw[red] (1!4)--(1!5);
+       \draw (3!4)--(3!5);
+       \draw (5!4)--(5!5);
+       \draw[red] (7!4)--(7!5);
+       \draw (9!4)--(9!5);
+       \draw (11!4)--(11!5);
+       \draw (13!4)--(13!5);
+       \draw (15!4)--(15!5);
+       \draw (17!4)--(17!5);
+       \draw (19!4)--(19!5);
+       \draw (21!4)--(21!5);
+       \draw (23!4)--(23!5);
+
+      %%%% UP%%%%
+      \draw (2!6)-- (2!7);
+      \draw[red]  (2!7)-- (3!8);
+      \draw (3!8)-- (4!7);
+      \draw[red] (4!7)-- (4!6);
+
+      \draw  (6!6)-- (6!7);
+      \draw[red]  (6!7)-- (7!8);
+      \draw  (7!8)-- (8!7);
+      \draw[red]  (8!7)-- (8!6);
+
+      \draw (10!6)--(10!7);
+      \draw[red] (10!7)--(11!8);
+      \draw (11!8)--(12!7);
+      \draw[red] (12!7)--(12!6);
+
+      \draw (16!6)--(16!7);
+      \draw (16!7)--(17!8);
+      \draw (17!8)--(18!7);
+      \draw (18!7)--(18!6);
+
+      %%% DOWN%%%
+      \draw[red]  (6!3)-- (6!2);
+      \draw  (6!2)-- (7!1);
+      \draw[red]  (7!1)-- (8!2);
+      \draw  (8!2)-- (8!3);
+
+      \draw (12!3)--(12!2);
+      \draw (12!2)--(13!1);
+      \draw (13!1)--(14!2);
+      \draw (14!2)--(14!3);
+
+      \draw (16!3)--(16!2);
+      \draw (16!2)--(17!1);
+      \draw (17!1)--(18!2);
+      \draw (18!2)--(18!3);
+
+      \draw (20!3)--(20!2);
+      \draw (20!2)--(21!1);
+      \draw (21!1)--(22!2);
+      \draw (22!2)--(22!3);
+    \end{tikzpicture}
+  \end{center}
+
+
+\item Prove or disprove by counterexample:
+  \begin{enumerate}
+  \item For every connected graph $G$ and every vertex $v$ of $G$
+        there is a maximum matching $M$ of $G$ such that
+        $v$ is $M$-saturated.
+  \end{enumerate}
+  This is false, as if every vertex $v$ is M-saturated then the maching $M$ is a perfect matching, which is not always true. Given a matching:\\
+  \begin{center}
+  \begin{tikzpicture}
+    \node[v, label=$v_4$] (a) at (0,3) {};
+    \node[v, label=$v_1$] (b) at (0,2) {};
+    \node[w] (dd) at (0,0) {}; % dummy
+    \node[v, label=$v_2$] (c) at ($(lc)+(210:1)$) {};
+    \node[v, label=$v_3$] (d) at ($(lc)+(330:1)$) {};
+
+    \draw[red] (a)--(b);
+    \draw (b)--(c);
+    \draw (b)--(d);
+
+  \end{tikzpicture}
+\end{center}
+
+This matching $M = \{G\}$ is a maximum one, and it has two M-unsaturated vertices, namely $v_2, v_3$.
+  
+  \begin{enumerate}
+    \setcounter{enumii}{1}
+  \item For every graph $G$ without perfect matching and every vertex $v$ of
+        $G$ there is a maximum matching $M$ of $G$ such that $v$ is
+        $M$-unsaturated.
+  \end{enumerate}
+  This is false, as a connected graph will always have a maximum matching with at least two vertices that is M-saturated. Given a matching: \\
+  \begin{center}
+  \begin{tikzpicture}
+    \node[v, label=above:{$v_1$}] (a) at (0,0) {};
+    \node[v, label=above:{$v_2$}] (b) at (1,0) {};
+    \node[v, label=above:{$v_3$}] (c) at (2,0) {};
+
+    \draw[red] (a)--(b);
+    \draw (b)--(c);
+
+  \end{tikzpicture}
+\end{center}
+
+This matching $M = \{G\}$ is a maximum one, and it has two M-saturated vertices, namely $v_1, v_2$.
+
+\end{enumerate}
+\end{document}
